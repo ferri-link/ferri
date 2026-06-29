@@ -6,4 +6,7 @@ export const paths = {
   account: {
     create: "/account/create",
   },
+  projects: {
+    create: "/projects/create",
+  },
 } as const;

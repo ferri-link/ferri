@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -22,14 +21,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { createAccount } from "@/lib/actions/account/create-account";
 import { displayNameSchema } from "@/lib/schema/account";
-import { paths } from "@/lib/utils/paths";
 
 export function CreateAccountForm({
   defaultName = "",
 }: {
   defaultName?: string;
 }) {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
 
@@ -51,8 +48,7 @@ export function CreateAccountForm({
         setAuthError(result.serverError);
         return;
       }
-      router.push(paths.index);
-      router.refresh();
+      // On success the action redirects to the create-project page.
     } finally {
       setPending(false);
     }
