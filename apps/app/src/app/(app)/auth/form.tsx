@@ -4,7 +4,6 @@ import { useForm } from "@tanstack/react-form";
 import { GalleryVerticalEnd } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Caption } from "@/components/ui/caption";
@@ -23,10 +22,9 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/lib/supabase/client";
-
-const emailSchema = z.email("Enter a valid email address.");
-const pinSchema = z.string().length(6, "Enter the 6-digit code.");
+import { sendSignInCode } from "@/lib/actions/auth/send-sign-in-code";
+import { verifySignInCode } from "@/lib/actions/auth/verify-sign-in-code";
+import { codeSchema, emailSchema } from "@/lib/schema/auth";
 
 export function SignInForm() {
   const router = useRouter();
@@ -46,13 +44,9 @@ export function SignInForm() {
 
     setPending(true);
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOtp({
-        email: form.getFieldValue("email"),
-        options: { shouldCreateUser: true },
-      });
-      if (error) {
-        setAuthError(error.message);
+      const result = await sendSignInCode({ email: form.getFieldValue("email") });
+      if (result?.serverError) {
+        setAuthError(result.serverError);
         return;
       }
       form.setFieldValue("pin", "");
@@ -70,19 +64,16 @@ export function SignInForm() {
 
     setPending(true);
     try {
-      const supabase = createClient();
-      const { data, error } = await supabase.auth.verifyOtp({
+      const result = await verifySignInCode({
         email: form.getFieldValue("email"),
-        token: form.getFieldValue("pin"),
-        type: "email",
+        code: form.getFieldValue("pin"),
       });
-      if (error) {
-        setAuthError(error.message);
+      if (result?.serverError) {
+        setAuthError(result.serverError);
         return;
       }
       // New users haven't picked a display name yet — send them to onboarding.
-      const hasDisplayName = Boolean(data.user?.user_metadata?.display_name);
-      router.push(hasDisplayName ? "/" : "/account/create");
+      router.push(result?.data?.needsOnboarding ? "/account/create" : "/");
       router.refresh();
     } finally {
       setPending(false);
@@ -144,7 +135,7 @@ export function SignInForm() {
             </form.Field>
 
             {step === "otp" && (
-              <form.Field name="pin" validators={{ onSubmit: pinSchema }}>
+              <form.Field name="pin" validators={{ onSubmit: codeSchema }}>
                 {(field) => {
                   const isInvalid = field.state.meta.errors.length > 0;
                   return (
