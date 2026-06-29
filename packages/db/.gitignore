@@ -1,0 +1,6 @@
+# Local env files (hold the Supabase credentials)
+.env
+.env*.local
+
+# Prisma client generated from schema.prisma
+/src/generated

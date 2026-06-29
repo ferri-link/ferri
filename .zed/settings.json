@@ -19,6 +19,7 @@
     "**/dist",
     "**/.astro",
     "**/.vercel",
+    "**/src/generated",
     "*d.ts",
   ],
   "lsp": {
