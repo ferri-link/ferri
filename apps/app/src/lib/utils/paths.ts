@@ -8,5 +8,10 @@ export const paths = {
   },
   projects: {
     create: "/projects/create",
+    id: (projectId: string) => ({
+      index: `/projects/${projectId}`,
+      links: `/projects/${projectId}/links`,
+      folders: `/projects/${projectId}/folders`,
+    }),
   },
 } as const;

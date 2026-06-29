@@ -2,7 +2,6 @@
 
 import { useForm } from "@tanstack/react-form";
 import { GalleryVerticalEnd } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,10 +24,8 @@ import { Input } from "@/components/ui/input";
 import { sendSignInCode } from "@/lib/actions/auth/send-sign-in-code";
 import { verifySignInCode } from "@/lib/actions/auth/verify-sign-in-code";
 import { codeSchema, emailSchema } from "@/lib/schema/auth";
-import { paths } from "@/lib/utils/paths";
 
 export function SignInForm() {
-  const router = useRouter();
   const [step, setStep] = useState<"email" | "otp">("email");
   const [pending, setPending] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -73,11 +70,8 @@ export function SignInForm() {
         setAuthError(result.serverError);
         return;
       }
-      // New users haven't picked a display name yet — send them to onboarding.
-      router.push(
-        result?.data?.needsOnboarding ? paths.account.create : paths.index,
-      );
-      router.refresh();
+      // On success the action redirects (onboarding, create-project, or the
+      // user's project dashboard).
     } finally {
       setPending(false);
     }

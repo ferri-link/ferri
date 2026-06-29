@@ -2,15 +2,17 @@
 
 import { Prisma, prisma } from "@ferri/db";
 import { returnValidationErrors } from "next-safe-action";
+import { redirect } from "next/navigation";
 
 import { userActionClient } from "@/lib/handlers/action";
 import { createProjectSchema } from "@/lib/schema/project";
+import { paths } from "@/lib/utils/paths";
 
 export const createProject = userActionClient
   .inputSchema(createProjectSchema)
   .action(async ({ parsedInput: { name, slug }, ctx: { user } }) => {
-    try {
-      const project = await prisma.project.create({
+    const project = await prisma.project
+      .create({
         data: {
           name,
           slug,
@@ -18,18 +20,18 @@ export const createProject = userActionClient
             create: { userId: user.id, role: "owner" },
           },
         },
+      })
+      .catch((error: unknown) => {
+        if (
+          error instanceof Prisma.PrismaClientKnownRequestError &&
+          error.code === "P2002"
+        ) {
+          returnValidationErrors(createProjectSchema, {
+            slug: { _errors: ["This slug is already taken."] },
+          });
+        }
+        throw error;
       });
 
-      return { id: project.id, slug: project.slug };
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
-        returnValidationErrors(createProjectSchema, {
-          slug: { _errors: ["This slug is already taken."] },
-        });
-      }
-      throw error;
-    }
+    redirect(paths.projects.id(project.id).index);
   });

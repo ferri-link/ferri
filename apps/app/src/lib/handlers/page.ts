@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
+import { getUserMemberships } from "@/lib/cache/membership";
 import { getUser } from "@/lib/cache/user";
 import { paths } from "@/lib/utils/paths";
 
@@ -27,4 +28,18 @@ export async function fetchUser() {
   }
 
   return user;
+}
+
+// Requires the signed-in, onboarded user to be a member of the given project.
+// Renders the not-found page if they aren't a member (or it doesn't exist).
+export async function fetchProject(projectId: string) {
+  const user = await fetchUser();
+  const memberships = await getUserMemberships(user.id);
+  const membership = memberships.find((m) => m.project.id === projectId);
+
+  if (!membership) {
+    notFound();
+  }
+
+  return { user, project: membership.project };
 }

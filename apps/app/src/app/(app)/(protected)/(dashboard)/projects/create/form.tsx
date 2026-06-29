@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -22,11 +21,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { createProject } from "@/lib/actions/project/create-project";
 import { projectNameSchema, projectSlugSchema } from "@/lib/schema/project";
-import { paths } from "@/lib/utils/paths";
 import { slugify } from "@/lib/utils/slugify";
 
 export function CreateProjectForm() {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // Once the user edits the slug, stop auto-filling it from the name.
@@ -61,8 +58,7 @@ export function CreateProjectForm() {
         );
         return;
       }
-      router.push(paths.index);
-      router.refresh();
+      // On success the action redirects to the new project's dashboard.
     } finally {
       setPending(false);
     }
