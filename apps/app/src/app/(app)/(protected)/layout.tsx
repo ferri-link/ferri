@@ -1,4 +1,4 @@
-import { fetchUserIfNotCompleted } from "@/lib/handlers/page/authHandler";
+import { fetchUserIfNotCompleted } from "@/lib/handlers/page";
 
 export default async function Layout({
   children,

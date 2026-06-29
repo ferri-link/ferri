@@ -1,6 +1,6 @@
 "use server";
 
-import { actionClient } from "@/lib/safe-action";
+import { actionClient } from "@/lib/handlers/action";
 import { signInSchema } from "@/lib/schema/auth";
 import { createClient } from "@/lib/supabase/server";
 

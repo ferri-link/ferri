@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { fetchUserIfNotCompleted } from "@/lib/handlers/page/authHandler";
+import { fetchUserIfNotCompleted } from "@/lib/handlers/page";
 import { suggestNameFromEmail } from "@/lib/utils/suggest-name-from-email";
 
 import { OnboardingForm } from "./form";
