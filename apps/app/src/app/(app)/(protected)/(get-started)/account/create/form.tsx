@@ -3,7 +3,6 @@
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,13 +20,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/lib/supabase/client";
-
-const nameSchema = z
-  .string()
-  .trim()
-  .min(2, "Enter at least 2 characters.")
-  .max(50, "Keep it under 50 characters.");
+import { updateDisplayName } from "@/lib/actions/account/update-display-name";
+import { displayNameSchema } from "@/lib/schema/account";
 
 export function OnboardingForm({ defaultName = "" }: { defaultName?: string }) {
   const router = useRouter();
@@ -45,12 +39,11 @@ export function OnboardingForm({ defaultName = "" }: { defaultName?: string }) {
 
     setPending(true);
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.updateUser({
-        data: { display_name: form.getFieldValue("displayName").trim() },
+      const result = await updateDisplayName({
+        displayName: form.getFieldValue("displayName"),
       });
-      if (error) {
-        setAuthError(error.message);
+      if (result?.serverError) {
+        setAuthError(result.serverError);
         return;
       }
       router.push("/");
@@ -80,7 +73,7 @@ export function OnboardingForm({ defaultName = "" }: { defaultName?: string }) {
           <FieldGroup>
             <form.Field
               name="displayName"
-              validators={{ onBlur: nameSchema, onSubmit: nameSchema }}
+              validators={{ onBlur: displayNameSchema, onSubmit: displayNameSchema }}
             >
               {(field) => {
                 const isInvalid = field.state.meta.errors.length > 0;
