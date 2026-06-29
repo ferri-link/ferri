@@ -85,7 +85,7 @@ export function OnboardingForm({ defaultName = "" }: { defaultName?: string }) {
                       name={field.name}
                       autoComplete="name"
                       autoFocus
-                      placeholder="Ada Lovelace"
+                      placeholder="Oleh"
                       disabled={pending}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
