@@ -20,10 +20,14 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { updateDisplayName } from "@/lib/actions/account/update-display-name";
+import { createAccount } from "@/lib/actions/account/create-account";
 import { displayNameSchema } from "@/lib/schema/account";
 
-export function OnboardingForm({ defaultName = "" }: { defaultName?: string }) {
+export function CreateAccountForm({
+  defaultName = "",
+}: {
+  defaultName?: string;
+}) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -39,7 +43,7 @@ export function OnboardingForm({ defaultName = "" }: { defaultName?: string }) {
 
     setPending(true);
     try {
-      const result = await updateDisplayName({
+      const result = await createAccount({
         displayName: form.getFieldValue("displayName"),
       });
       if (result?.serverError) {

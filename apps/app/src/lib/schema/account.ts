@@ -6,6 +6,6 @@ export const displayNameSchema = z
   .min(2, "Enter at least 2 characters.")
   .max(50, "Keep it under 50 characters.");
 
-export const updateDisplayNameSchema = z.object({
+export const createAccountSchema = z.object({
   displayName: displayNameSchema,
 });
