@@ -1,0 +1,15 @@
+{
+  "name": "ferri",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.7.1",
+  "scripts": {
+    "dev": "pnpm --filter @ferri/app dev",
+    "build": "pnpm -r build",
+    "start": "pnpm --filter @ferri/app start",
+    "lint": "pnpm -r lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
