@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/server";
+import { fetchUserIfNotCompleted } from "@/lib/handlers/page/authHandler";
 
 import { OnboardingForm } from "./form";
 
@@ -10,17 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function OnboardingPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/auth");
-  }
-  if (user.user_metadata?.display_name) {
-    redirect("/");
-  }
+  const user = await fetchUserIfNotCompleted();
 
   const suggestedName = user.email?.split("@")[0] ?? "";
 
