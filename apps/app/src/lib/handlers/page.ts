@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { getUser } from "@/lib/cache/user";
+import { paths } from "@/lib/utils/paths";
 
 // Requires a signed-in user, but allows one who hasn't finished onboarding.
 // Redirects to sign-in when there's no session. Use on pages that must stay
@@ -9,7 +10,7 @@ export async function fetchUserIfNotCompleted() {
   const user = await getUser();
 
   if (!user) {
-    redirect("/auth");
+    redirect(paths.auth.index);
   }
 
   return user;
@@ -22,7 +23,7 @@ export async function fetchUser() {
   const user = await fetchUserIfNotCompleted();
 
   if (!user.user_metadata?.display_name) {
-    redirect("/account/create");
+    redirect(paths.account.create);
   }
 
   return user;

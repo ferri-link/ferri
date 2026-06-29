@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { sendSignInCode } from "@/lib/actions/auth/send-sign-in-code";
 import { verifySignInCode } from "@/lib/actions/auth/verify-sign-in-code";
 import { codeSchema, emailSchema } from "@/lib/schema/auth";
+import { paths } from "@/lib/utils/paths";
 
 export function SignInForm() {
   const router = useRouter();
@@ -73,7 +74,9 @@ export function SignInForm() {
         return;
       }
       // New users haven't picked a display name yet — send them to onboarding.
-      router.push(result?.data?.needsOnboarding ? "/account/create" : "/");
+      router.push(
+        result?.data?.needsOnboarding ? paths.account.create : paths.index,
+      );
       router.refresh();
     } finally {
       setPending(false);

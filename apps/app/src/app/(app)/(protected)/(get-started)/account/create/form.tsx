@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { createAccount } from "@/lib/actions/account/create-account";
 import { displayNameSchema } from "@/lib/schema/account";
+import { paths } from "@/lib/utils/paths";
 
 export function CreateAccountForm({
   defaultName = "",
@@ -50,7 +51,7 @@ export function CreateAccountForm({
         setAuthError(result.serverError);
         return;
       }
-      router.push("/");
+      router.push(paths.index);
       router.refresh();
     } finally {
       setPending(false);
