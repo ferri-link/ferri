@@ -1,5 +1,7 @@
 import * as z from "zod";
 
+import { isReservedSlug } from "@/lib/utils/reserved-slugs";
+
 export const projectNameSchema = z
   .string()
   .trim()
@@ -14,7 +16,10 @@ export const projectSlugSchema = z
   .regex(
     /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
     "Use lowercase letters, numbers, and hyphens.",
-  );
+  )
+  .refine((slug) => !isReservedSlug(slug), {
+    message: "This slug is already taken.",
+  });
 
 export const createProjectSchema = z.object({
   name: projectNameSchema,
