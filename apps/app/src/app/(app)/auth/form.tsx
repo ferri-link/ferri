@@ -71,7 +71,7 @@ export function SignInForm() {
     setPending(true);
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.verifyOtp({
+      const { data, error } = await supabase.auth.verifyOtp({
         email: form.getFieldValue("email"),
         token: form.getFieldValue("pin"),
         type: "email",
@@ -80,7 +80,9 @@ export function SignInForm() {
         setAuthError(error.message);
         return;
       }
-      router.push("/");
+      // New users haven't picked a display name yet — send them to onboarding.
+      const hasDisplayName = Boolean(data.user?.user_metadata?.display_name);
+      router.push(hasDisplayName ? "/" : "/account/create");
       router.refresh();
     } finally {
       setPending(false);

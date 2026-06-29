@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Caption } from "@/components/ui/caption";
 
-import { SignInForm } from "./sign-in-form";
+import { SignInForm } from "./form";
 
 export const metadata: Metadata = {
   title: "Sign in",
