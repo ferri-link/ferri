@@ -1,6 +1,11 @@
 "use client";
 
-import { Folder, GalleryVerticalEnd, LayoutDashboard, Link2 } from "lucide-react";
+import {
+  Folder,
+  GalleryVerticalEnd,
+  LayoutDashboard,
+  Link2,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -34,7 +39,7 @@ export function AppSidebar({ projectId }: { projectId: string }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton render={<Link href={project.index} />}>
+            <SidebarMenuButton render={<Link href={paths.index} />}>
               <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
                 <GalleryVerticalEnd className="size-4" />
               </div>
