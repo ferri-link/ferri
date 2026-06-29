@@ -1,0 +1,33 @@
+enum ProjectRole {
+  owner
+  member
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  logoUrl   String?  @map("logo_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  members ProjectMember[]
+
+  @@map("projects")
+}
+
+model ProjectMember {
+  id        String      @id @default(cuid())
+  projectId String      @map("project_id")
+  // The Supabase auth user (auth.users.id). Not a Prisma-managed relation,
+  // since the users table lives in Supabase's auth schema.
+  userId    String      @map("user_id") @db.Uuid
+  role      ProjectRole @default(member)
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([userId])
+  @@map("project_members")
+}

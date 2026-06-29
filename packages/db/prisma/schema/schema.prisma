@@ -1,9 +1,9 @@
-// Prisma schema for the @ferri/db package.
+// Prisma schema for the @ferri/db package (multi-file schema folder).
 // Docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../../src/generated/prisma"
 }
 
 datasource db {
