@@ -56,24 +56,31 @@ export function FolderActions({
     preventDefault: true,
   });
 
-  // Backspace triggers the delete action while this folder's menu is open.
-  useHotkeys(
-    "backspace",
-    () => {
-      setMenuOpen(false);
-      setConfirmOpen(true);
-    },
-    { enabled: menuOpen, preventDefault: true },
-  );
+  // While this folder's menu is open, "e" edits and Backspace deletes. These
+  // run in the capture phase so they fire before the menu's built-in typeahead,
+  // which would otherwise swallow the "e" key.
+  const menuHotkeyOptions = {
+    enabled: menuOpen,
+    preventDefault: true,
+    eventListenerOptions: { capture: true },
+  };
 
-  // "e" triggers the edit action while this folder's menu is open.
   useHotkeys(
     "e",
     () => {
       setMenuOpen(false);
       setEditOpen(true);
     },
-    { enabled: menuOpen, preventDefault: true },
+    menuHotkeyOptions,
+  );
+
+  useHotkeys(
+    "backspace",
+    () => {
+      setMenuOpen(false);
+      setConfirmOpen(true);
+    },
+    menuHotkeyOptions,
   );
 
   return (
