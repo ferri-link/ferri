@@ -146,6 +146,9 @@ export function CreateFolderDialog({ projectId }: { projectId: string }) {
                       id={field.name}
                       name={field.name}
                       autoFocus
+                      autoComplete="off"
+                      data-1p-ignore
+                      data-lpignore="true"
                       placeholder="Marketing"
                       disabled={pending}
                       value={field.state.value}
