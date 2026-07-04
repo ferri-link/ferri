@@ -12,6 +12,7 @@ model Project {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   members ProjectMember[]
+  folders Folder[]
 
   @@map("projects")
 }
