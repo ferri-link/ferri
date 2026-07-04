@@ -1,7 +1,7 @@
 "use client";
 
 import type { FolderModel } from "@ferri/db";
-import { EllipsisIcon, Trash2Icon } from "lucide-react";
+import { EllipsisIcon, PencilIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -26,6 +26,8 @@ import { Kbd } from "@/components/ui/kbd";
 import { Spinner } from "@/components/ui/spinner";
 import { deleteFolder } from "@/lib/actions/project/delete-folder";
 
+import { EditFolderDialog } from "./edit-dialog";
+
 export function FolderActions({
   projectId,
   folder,
@@ -34,6 +36,7 @@ export function FolderActions({
   folder: FolderModel;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pending, setPending] = useState(false);
 
@@ -63,6 +66,16 @@ export function FolderActions({
     { enabled: menuOpen, preventDefault: true },
   );
 
+  // "e" triggers the edit action while this folder's menu is open.
+  useHotkeys(
+    "e",
+    () => {
+      setMenuOpen(false);
+      setEditOpen(true);
+    },
+    { enabled: menuOpen, preventDefault: true },
+  );
+
   return (
     <>
       <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
@@ -78,6 +91,11 @@ export function FolderActions({
           <EllipsisIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => setEditOpen(true)}>
+            <PencilIcon />
+            Edit
+            <Kbd className="ml-auto">E</Kbd>
+          </DropdownMenuItem>
           <DropdownMenuItem
             variant="destructive"
             onClick={() => setConfirmOpen(true)}
@@ -88,6 +106,13 @@ export function FolderActions({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <EditFolderDialog
+        projectId={projectId}
+        folder={folder}
+        open={editOpen}
+        onOpenChange={setEditOpen}
+      />
 
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialogContent>
