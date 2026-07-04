@@ -12,15 +12,15 @@ export function PageLayout({
   children?: ReactNode;
 }) {
   return (
-    <div className="flex flex-1 flex-col gap-6">
-      <header className="flex items-center justify-between gap-4 border-b p-4">
-        <div className="flex items-center gap-2 min-h-9">
+    <div className="flex min-h-0 flex-1 flex-col">
+      <header className="flex shrink-0 items-center justify-between gap-4 border-b p-4">
+        <div className="flex min-h-9 items-center gap-2">
           <SidebarTrigger className="md:hidden" />
           <h1 className="text-xl font-medium tracking-tight">{title}</h1>
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
       </header>
-      <div className="flex-1">{children}</div>
+      <div className="min-h-0 flex-1 overflow-y-auto p-4">{children}</div>
     </div>
   );
 }
