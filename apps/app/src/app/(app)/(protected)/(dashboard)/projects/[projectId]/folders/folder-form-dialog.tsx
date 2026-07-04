@@ -84,7 +84,7 @@ export function FolderFormDialog({
 
   // ⌘/Ctrl+Enter submits from anywhere in the open form (including the fields).
   useHotkeys("mod+enter", () => void save(), {
-    enabled: open,
+    enabled: open && !pending,
     enableOnFormTags: true,
     preventDefault: true,
   });
