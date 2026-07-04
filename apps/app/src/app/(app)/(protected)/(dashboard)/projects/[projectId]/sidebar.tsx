@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  Folder,
+  FolderClosedIcon,
   GalleryVerticalEnd,
   LayoutDashboard,
-  Link2,
+  LinkIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -30,8 +30,8 @@ export function AppSidebar({ projectId }: { projectId: string }) {
 
   const items = [
     { title: "Dashboard", href: project.index, icon: LayoutDashboard },
-    { title: "Links", href: project.links, icon: Link2 },
-    { title: "Folders", href: project.folders, icon: Folder },
+    { title: "Links", href: project.links, icon: LinkIcon },
+    { title: "Folders", href: project.folders, icon: FolderClosedIcon },
   ];
 
   return (
