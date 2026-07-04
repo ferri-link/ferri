@@ -2,6 +2,7 @@
 
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +23,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Kbd } from "@/components/ui/kbd";
 import { Textarea } from "@/components/ui/textarea";
 import { createFolder } from "@/lib/actions/project/create-folder";
 import {
@@ -47,6 +49,20 @@ export function CreateFolderDialog({ projectId }: { projectId: string }) {
       form.reset();
     }
   }
+
+  // Press "c" to open the dialog. react-hotkeys-hook ignores keystrokes typed
+  // in form fields by default, and it's disabled while the dialog is open.
+  useHotkeys("c", () => setOpen(true), {
+    enabled: !open,
+    preventDefault: true,
+  });
+
+  // ⌘/Ctrl+Enter submits from anywhere in the open form (including the fields).
+  useHotkeys("mod+enter", () => void save(), {
+    enabled: open,
+    enableOnFormTags: true,
+    preventDefault: true,
+  });
 
   async function save() {
     setError(null);
@@ -79,7 +95,14 @@ export function CreateFolderDialog({ projectId }: { projectId: string }) {
 
   return (
     <Dialog open={open} onOpenChange={openChange}>
-      <DialogTrigger render={<Button>Create folder</Button>} />
+      <DialogTrigger
+        render={
+          <Button>
+            Create folder
+            <Kbd>C</Kbd>
+          </Button>
+        }
+      />
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create new folder</DialogTitle>
@@ -91,6 +114,18 @@ export function CreateFolderDialog({ projectId }: { projectId: string }) {
           onSubmit={(e) => {
             e.preventDefault();
             void save();
+          }}
+          onKeyDown={(e) => {
+            // Submitting is ⌘/Ctrl+Enter only; a bare Enter in a text input
+            // shouldn't submit the form.
+            if (
+              e.key === "Enter" &&
+              !e.metaKey &&
+              !e.ctrlKey &&
+              e.target instanceof HTMLInputElement
+            ) {
+              e.preventDefault();
+            }
           }}
         >
           <FieldGroup>
@@ -176,9 +211,11 @@ export function CreateFolderDialog({ projectId }: { projectId: string }) {
               }
             >
               Cancel
+              <Kbd>Esc</Kbd>
             </DialogClose>
             <Button type="submit" disabled={pending}>
               {pending ? "Creating…" : "Create folder"}
+              <Kbd>⌘ ⏎</Kbd>
             </Button>
           </DialogFooter>
         </form>
