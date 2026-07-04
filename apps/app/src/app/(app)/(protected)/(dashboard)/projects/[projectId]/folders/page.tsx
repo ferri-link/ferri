@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { getProjectFolders } from "@/lib/cache/folder";
 
 import { PageLayout } from "../../../page-layout";
-import { CreateFolderDialog } from "./create-folder-dialog";
-import { FolderList } from "./folder-list";
-import { FoldersEmpty } from "./folders-empty";
+import { CreateFolderDialog } from "./create-dialog";
+import { FoldersEmpty } from "./empty";
+import { FolderList } from "./list";
 
 export const metadata: Metadata = {
   title: "Folders",
