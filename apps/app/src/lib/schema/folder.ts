@@ -21,3 +21,8 @@ export const createFolderSchema = z.object({
   name: folderNameSchema,
   description: folderDescriptionSchema,
 });
+
+export const deleteFolderSchema = z.object({
+  projectId: z.string().min(1),
+  folderId: z.string().min(1),
+});

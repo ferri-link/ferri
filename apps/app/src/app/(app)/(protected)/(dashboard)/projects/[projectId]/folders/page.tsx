@@ -27,7 +27,7 @@ export default async function FoldersPage({
       {folders.length === 0 ? (
         <FoldersEmpty />
       ) : (
-        <FolderList folders={folders} />
+        <FolderList projectId={projectId} folders={folders} />
       )}
     </PageLayout>
   );
