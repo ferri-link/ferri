@@ -3,7 +3,7 @@
 import {
   FolderClosedIcon,
   GalleryVerticalEnd,
-  LayoutDashboard,
+  LayoutPanelTopIcon,
   LinkIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -29,7 +29,7 @@ export function AppSidebar({ projectId }: { projectId: string }) {
   const project = paths.projects.id(projectId);
 
   const items = [
-    { title: "Dashboard", href: project.index, icon: LayoutDashboard },
+    { title: "Overview", href: project.index, icon: LayoutPanelTopIcon },
     { title: "Links", href: project.links, icon: LinkIcon },
     { title: "Folders", href: project.folders, icon: FolderClosedIcon },
   ];
