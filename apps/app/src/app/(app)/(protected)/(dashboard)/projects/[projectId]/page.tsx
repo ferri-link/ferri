@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
+import { PageLayout } from "../../page-layout";
+
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 
 export default function ProjectDashboardPage() {
-  return <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>;
+  return <PageLayout title="Dashboard" />;
 }
