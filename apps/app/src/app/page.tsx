@@ -6,6 +6,8 @@ import { getUserMemberships } from "@/lib/cache/membership";
 import { getUser } from "@/lib/cache/user";
 import { paths } from "@/lib/utils/paths";
 
+import { DashboardButton } from "./dashboard-button";
+
 export default async function Home() {
   const user = await getUser();
   const memberships = user ? await getUserMemberships(user.id) : [];
@@ -18,19 +20,13 @@ export default async function Home() {
         <div className="flex items-center gap-2">
           <ModeToggle />
           {user ? (
-            <Button
-              render={
-                <Link
-                  href={
-                    firstProject
-                      ? paths.projects.id(firstProject.id).index
-                      : paths.projects.create
-                  }
-                />
+            <DashboardButton
+              href={
+                firstProject
+                  ? paths.projects.id(firstProject.id).index
+                  : paths.projects.create
               }
-            >
-              Dashboard
-            </Button>
+            />
           ) : (
             <Button render={<Link href={paths.auth.index} />}>Sign in</Button>
           )}
