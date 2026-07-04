@@ -187,6 +187,7 @@ export function CreateFolderDialog({ projectId }: { projectId: string }) {
                     <Textarea
                       id={field.name}
                       name={field.name}
+                      className="max-h-40"
                       placeholder="What goes in this folder?"
                       disabled={pending}
                       value={field.state.value}
