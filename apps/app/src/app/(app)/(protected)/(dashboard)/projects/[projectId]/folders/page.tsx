@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
 
-import { Button } from "@/components/ui/button";
-
 import { PageLayout } from "../../../page-layout";
+import { CreateFolderDialog } from "./create-folder-dialog";
 
 export const metadata: Metadata = {
   title: "Folders",
 };
 
-export default function FoldersPage() {
+export default async function FoldersPage({
+  params,
+}: {
+  params: Promise<{ projectId: string }>;
+}) {
+  const { projectId } = await params;
+
   return (
-    <PageLayout title="Folders" action={<Button>New folder</Button>} />
+    <PageLayout
+      title="Folders"
+      action={<CreateFolderDialog projectId={projectId} />}
+    />
   );
 }
