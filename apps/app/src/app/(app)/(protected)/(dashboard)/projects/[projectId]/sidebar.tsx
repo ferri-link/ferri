@@ -35,7 +35,7 @@ export function AppSidebar({ projectId }: { projectId: string }) {
   ];
 
   return (
-    <Sidebar>
+    <Sidebar variant="inset">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
