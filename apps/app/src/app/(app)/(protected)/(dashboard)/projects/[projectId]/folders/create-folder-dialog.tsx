@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Kbd } from "@/components/ui/kbd";
+import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { createFolder } from "@/lib/actions/project/create-folder";
 import {
@@ -214,8 +215,11 @@ export function CreateFolderDialog({ projectId }: { projectId: string }) {
               <Kbd>Esc</Kbd>
             </DialogClose>
             <Button type="submit" disabled={pending}>
-              {pending ? "Creating…" : "Create folder"}
-              <Kbd>⌘ ⏎</Kbd>
+              <>
+                {pending && <Spinner />}
+                Create folder
+                <Kbd>⌘ ⏎</Kbd>
+              </>
             </Button>
           </DialogFooter>
         </form>
