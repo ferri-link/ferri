@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Wordmark } from "@/components/logo";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Button } from "@/components/ui/button";
 import { getUserMemberships } from "@/lib/cache/membership";
 import { getUser } from "@/lib/cache/user";
 import { paths } from "@/lib/utils/paths";
@@ -23,8 +24,22 @@ export default async function Home() {
   return (
     <div className="flex flex-1 flex-col pt-16">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-950">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-6">
           <Wordmark />
+          <nav className="hidden items-center gap-1 sm:flex">
+            <Button variant="ghost" render={<a href="#features" />}>
+              Features
+            </Button>
+            <Button variant="ghost" render={<a href="#docs" />}>
+              Docs
+            </Button>
+            <Button variant="ghost" render={<a href="#pricing" />}>
+              Pricing
+            </Button>
+            <Button variant="ghost" render={<a href="#faq" />}>
+              FAQ
+            </Button>
+          </nav>
           <div className="flex items-center gap-2">
             <ModeToggle />
             {user ? (
@@ -54,7 +69,7 @@ export default async function Home() {
         </p>
       </main>
 
-      <section id="features" className="px-6 py-24">
+      <section id="features" className="scroll-mt-20 px-6 py-24">
         <div className="mx-auto w-full max-w-5xl">
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((n) => (
@@ -72,7 +87,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="pricing" className="px-6 py-24">
+      <section id="pricing" className="scroll-mt-20 px-6 py-24">
         <div className="mx-auto w-full max-w-5xl">
           <h2 className="text-3xl tracking-tight sm:text-4xl">Pricing</h2>
           <p className="mt-3 max-w-xl text-neutral-500 dark:text-neutral-400">
@@ -94,7 +109,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="faq" className="px-6 py-24">
+      <section id="faq" className="scroll-mt-20 px-6 py-24">
         <div className="mx-auto w-full max-w-5xl">
           <h2 className="text-3xl tracking-tight sm:text-4xl">
             Frequently asked questions
