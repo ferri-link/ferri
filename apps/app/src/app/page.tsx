@@ -21,8 +21,8 @@ export default async function Home() {
   const firstProject = memberships[0]?.project;
 
   return (
-    <div className="flex flex-1 flex-col">
-      <header className="p-4">
+    <div className="flex flex-1 flex-col pt-16">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-950">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
           <Wordmark />
           <div className="flex items-center gap-2">
