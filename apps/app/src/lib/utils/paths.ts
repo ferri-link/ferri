@@ -12,6 +12,13 @@ export const paths = {
       index: `/projects/${projectId}`,
       links: `/projects/${projectId}/links`,
       folders: `/projects/${projectId}/folders`,
+      settings: {
+        index: `/projects/${projectId}/settings`,
+        preferences: `/projects/${projectId}/settings/preferences`,
+        billing: `/projects/${projectId}/settings/billing`,
+        members: `/projects/${projectId}/settings/members`,
+        integrations: `/projects/${projectId}/settings/integrations`,
+      },
     }),
   },
 } as const;
