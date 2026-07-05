@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Wordmark } from "@/components/logo";
 import { ModeToggle } from "@/components/mode-toggle";
 import { getUserMemberships } from "@/lib/cache/membership";
 import { getUser } from "@/lib/cache/user";
@@ -23,7 +24,7 @@ export default async function Home() {
     <div className="flex flex-1 flex-col">
       <header className="p-4">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
-          <span className="font-semibold tracking-tight">Ferri</span>
+          <Wordmark />
           <div className="flex items-center gap-2">
             <ModeToggle />
             {user ? (

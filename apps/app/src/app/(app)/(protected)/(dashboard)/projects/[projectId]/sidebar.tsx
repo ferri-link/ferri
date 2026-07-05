@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  GalleryVerticalEnd,
   LayoutPanelTopIcon,
   LibraryIcon,
   LinkIcon,
@@ -10,6 +9,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { Wordmark } from "@/components/logo";
 import {
   Sidebar,
   SidebarContent,
@@ -61,16 +61,7 @@ export function AppSidebar({ projectId }: { projectId: string }) {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton render={<Link href={paths.index} />}>
-              <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-                <GalleryVerticalEnd className="size-4" />
-              </div>
-              <span className="font-semibold">Ferri</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <Wordmark className="px-2 py-1.5" />
       </SidebarHeader>
 
       <SidebarContent>
