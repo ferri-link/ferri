@@ -14,6 +14,8 @@ export const paths = {
       library: {
         index: `/projects/${projectId}/library`,
         folders: `/projects/${projectId}/library/folders`,
+        actions: `/projects/${projectId}/library/actions`,
+        metadata: `/projects/${projectId}/library/metadata`,
       },
       settings: {
         index: `/projects/${projectId}/settings`,

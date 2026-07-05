@@ -39,7 +39,11 @@ export function AppSidebar({ projectId }: { projectId: string }) {
       title: "Library",
       href: project.library.index,
       icon: LibraryIcon,
-      subItems: [{ title: "Folders", href: project.library.folders }],
+      subItems: [
+        { title: "Folders", href: project.library.folders },
+        { title: "Actions", href: project.library.actions },
+        { title: "Metadata", href: project.library.metadata },
+      ],
     },
     {
       title: "Settings",
