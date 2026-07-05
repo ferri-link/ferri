@@ -8,6 +8,8 @@ model Project {
   name      String
   slug      String   @unique
   logoUrl   String?  @map("logo_url")
+  // Shape defined by the ProjectMetadata type exported from @ferri/db.
+  metadata  Json?    @db.JsonB
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
