@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getUserMemberships } from "@/lib/cache/membership";
 import { getUser } from "@/lib/cache/user";
 import { authErrorMessage } from "@/lib/supabase/error";
+import { hasProjectAccess } from "@/lib/utils/project";
 import { paths } from "@/lib/utils/paths";
 
 export const actionClient = createSafeActionClient({
@@ -41,6 +42,10 @@ export const projectActionClient = userActionClient.use(
 
     if (!membership) {
       throw new Error("You don't have access to this project.");
+    }
+
+    if (!hasProjectAccess(membership.project)) {
+      throw new Error("This project is still on the waitlist.");
     }
 
     return next({ ctx: { project: membership.project } });

@@ -1,7 +1,9 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { fetchProject } from "@/lib/handlers/page";
+import { hasProjectAccess } from "@/lib/utils/project";
 
 import { AppSidebar } from "./sidebar";
+import { WaitlistOverlay } from "./waitlist-overlay";
 
 export default async function Layout({
   children,
@@ -11,7 +13,11 @@ export default async function Layout({
   params: Promise<{ projectId: string }>;
 }) {
   const { projectId } = await params;
-  await fetchProject(projectId);
+  const { project } = await fetchProject(projectId);
+
+  // Members of a project still on the waitlist see the dashboard behind a
+  // non-dismissable overlay rather than being redirected away.
+  const waitlist = !hasProjectAccess(project);
 
   return (
     <SidebarProvider className="h-svh">
@@ -19,6 +25,7 @@ export default async function Layout({
       <SidebarInset className="min-h-0 overflow-hidden">
         <div className="flex min-h-0 flex-1 flex-col">{children}</div>
       </SidebarInset>
+      {waitlist && <WaitlistOverlay projectName={project.name} />}
     </SidebarProvider>
   );
 }

@@ -32,6 +32,8 @@ export async function fetchUser() {
 
 // Requires the signed-in, onboarded user to be a member of the given project.
 // Renders the not-found page if they aren't a member (or it doesn't exist).
+// Does not apply the access gate — callers guarding the project UI should check
+// `hasProjectAccess` and handle the waitlist state themselves.
 export async function fetchProject(projectId: string) {
   const user = await fetchUser();
   const memberships = await getUserMemberships(user.id);
