@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Kbd } from "@/components/ui/kbd";
+import { useDialogParam } from "@/hooks/use-dialog";
 
 import { DeleteFolderDialog } from "./delete-dialog";
 import { EditFolderDialog } from "./edit-dialog";
@@ -25,8 +26,11 @@ export function FolderActions({
   folder: FolderModel;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [editOpen, setEditOpen] = useDialogParam("edit-folder", folder.id);
+  const [confirmOpen, setConfirmOpen] = useDialogParam(
+    "delete-folder",
+    folder.id,
+  );
 
   // While this folder's menu is open, "e" edits and Backspace deletes. These
   // run in the capture phase so they fire before the menu's built-in typeahead,

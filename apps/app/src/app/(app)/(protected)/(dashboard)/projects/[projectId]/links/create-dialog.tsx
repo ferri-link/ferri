@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { Button } from "@/components/ui/button";
@@ -15,9 +14,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Kbd } from "@/components/ui/kbd";
+import { useDialogParam } from "@/hooks/use-dialog";
 
 export function CreateLinkDialog() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useDialogParam("create-link");
 
   // Press "c" to open the dialog. react-hotkeys-hook ignores keystrokes typed
   // in form fields by default, and it's disabled while the dialog is open.

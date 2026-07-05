@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
+import { useDialogParam } from "@/hooks/use-dialog";
 import { createFolder } from "@/lib/actions/project/create-folder";
 
 import { FolderFormDialog } from "./folder-form-dialog";
 
 export function CreateFolderDialog({ projectId }: { projectId: string }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useDialogParam("create-folder");
 
   // Press "c" to open the dialog. react-hotkeys-hook ignores keystrokes typed
   // in form fields by default, and it's disabled while the dialog is open.
