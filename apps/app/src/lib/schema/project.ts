@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { isReservedSlug } from "@/lib/utils/reserved-slugs";
+import { isReservedSlug } from "@/lib/utils/slug";
 
 export const projectNameSchema = z
   .string()

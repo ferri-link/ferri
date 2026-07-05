@@ -21,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { createProject } from "@/lib/actions/project/create-project";
 import { projectNameSchema, projectSlugSchema } from "@/lib/schema/project";
-import { slugify } from "@/lib/utils/slugify";
+import { slugify } from "@/lib/utils/slug";
 
 export function CreateProjectForm() {
   const [pending, setPending] = useState(false);

@@ -1,3 +1,13 @@
+// Turns arbitrary text into a URL-safe slug: lowercase, alphanumeric words
+// joined by single hyphens, e.g. "My App!" → "my-app".
+export function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 // Slugs reserved for the platform — app routes, subdomains, and common terms
 // we may want for ourselves — that projects aren't allowed to claim.
 export const RESERVED_SLUGS = new Set([
