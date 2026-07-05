@@ -11,7 +11,10 @@ export const paths = {
     id: (projectId: string) => ({
       index: `/projects/${projectId}`,
       links: `/projects/${projectId}/links`,
-      folders: `/projects/${projectId}/folders`,
+      library: {
+        index: `/projects/${projectId}/library`,
+        folders: `/projects/${projectId}/library/folders`,
+      },
       settings: {
         index: `/projects/${projectId}/settings`,
         preferences: `/projects/${projectId}/settings/preferences`,

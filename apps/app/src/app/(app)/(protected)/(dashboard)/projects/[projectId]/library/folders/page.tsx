@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { getProjectFolders } from "@/lib/cache/folder";
 
-import { PageLayout } from "../../../page-layout";
+import { PageLayout } from "../../../../page-layout";
 import { CreateFolderDialog } from "./create-dialog";
 import { FoldersEmpty } from "./empty";
 import { FolderList } from "./list";

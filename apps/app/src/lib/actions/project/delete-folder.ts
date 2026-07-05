@@ -14,5 +14,5 @@ export const deleteFolder = projectActionClient
     // be removed even if it slipped past the membership guard.
     await prisma.folder.deleteMany({ where: { id: folderId, projectId } });
 
-    revalidatePath(paths.projects.id(projectId).folders);
+    revalidatePath(paths.projects.id(projectId).library.folders);
   });

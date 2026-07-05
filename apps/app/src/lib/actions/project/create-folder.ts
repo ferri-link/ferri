@@ -14,5 +14,5 @@ export const createFolder = projectActionClient
       data: { projectId, name, description: description || null },
     });
 
-    revalidatePath(paths.projects.id(projectId).folders);
+    revalidatePath(paths.projects.id(projectId).library.folders);
   });

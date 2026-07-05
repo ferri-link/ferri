@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  FolderClosedIcon,
   GalleryVerticalEnd,
   LayoutPanelTopIcon,
+  LibraryIcon,
   LinkIcon,
   SettingsIcon,
 } from "lucide-react";
@@ -35,18 +35,24 @@ export function AppSidebar({ projectId }: { projectId: string }) {
   const items = [
     { title: "Overview", href: project.index, icon: LayoutPanelTopIcon },
     { title: "Links", href: project.links, icon: LinkIcon },
-    { title: "Folders", href: project.folders, icon: FolderClosedIcon },
-    { title: "Settings", href: project.settings.index, icon: SettingsIcon },
+    {
+      title: "Library",
+      href: project.library.index,
+      icon: LibraryIcon,
+      subItems: [{ title: "Folders", href: project.library.folders }],
+    },
+    {
+      title: "Settings",
+      href: project.settings.index,
+      icon: SettingsIcon,
+      subItems: [
+        { title: "Preferences", href: project.settings.preferences },
+        { title: "Billing", href: project.settings.billing },
+        { title: "Members", href: project.settings.members },
+        { title: "Integrations", href: project.settings.integrations },
+      ],
+    },
   ];
-
-  const settingsItems = [
-    { title: "Preferences", href: project.settings.preferences },
-    { title: "Billing", href: project.settings.billing },
-    { title: "Members", href: project.settings.members },
-    { title: "Integrations", href: project.settings.integrations },
-  ];
-
-  const isSettingsActive = pathname.startsWith(project.settings.index);
 
   return (
     <Sidebar variant="inset">
@@ -68,23 +74,23 @@ export function AppSidebar({ projectId }: { projectId: string }) {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isSettings = item.href === project.settings.index;
+                const isActive = item.subItems
+                  ? pathname.startsWith(item.href)
+                  : pathname === item.href;
 
                 return (
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton
-                      isActive={
-                        isSettings ? isSettingsActive : pathname === item.href
-                      }
+                      isActive={isActive}
                       render={<Link href={item.href} />}
                     >
                       <item.icon />
                       <span>{item.title}</span>
                     </SidebarMenuButton>
 
-                    {isSettings && isSettingsActive && (
+                    {item.subItems && isActive && (
                       <SidebarMenuSub className="mx-0 my-2 ml-5 translate-x-0 pl-3">
-                        {settingsItems.map((subItem) => (
+                        {item.subItems.map((subItem) => (
                           <SidebarMenuSubItem key={subItem.href}>
                             <SidebarMenuSubButton
                               isActive={pathname === subItem.href}

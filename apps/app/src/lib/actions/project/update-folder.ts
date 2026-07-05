@@ -18,6 +18,6 @@ export const updateFolder = projectActionClient
         data: { name, description: description || null },
       });
 
-      revalidatePath(paths.projects.id(projectId).folders);
+      revalidatePath(paths.projects.id(projectId).library.folders);
     },
   );
