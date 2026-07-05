@@ -94,6 +94,32 @@ export default async function Home() {
         </div>
       </section>
 
+      <section id="faq" className="px-6 py-24">
+        <div className="mx-auto w-full max-w-5xl">
+          <h2 className="text-3xl tracking-tight sm:text-4xl">
+            Frequently asked questions
+          </h2>
+          <p className="mt-3 max-w-xl text-neutral-500 dark:text-neutral-400">
+            Placeholder — answer the most common questions here.
+          </p>
+          <div className="mt-10 divide-y divide-neutral-200 dark:divide-neutral-800">
+            {[1, 2, 3, 4].map((n) => (
+              <details key={n} className="group py-4">
+                <summary className="flex cursor-pointer items-center justify-between font-medium">
+                  Question {n}
+                  <span className="text-neutral-400 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-2 max-w-2xl text-sm text-neutral-500 dark:text-neutral-400">
+                  Placeholder answer for question {n}.
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <footer className="mt-auto p-4">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-2 text-sm text-neutral-500 sm:flex-row dark:text-neutral-400">
           <span>© {new Date().getFullYear()} Ferri</span>
