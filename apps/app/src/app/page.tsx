@@ -1,12 +1,10 @@
-import Link from "next/link";
-
 import { ModeToggle } from "@/components/mode-toggle";
-import { Button } from "@/components/ui/button";
 import { getUserMemberships } from "@/lib/cache/membership";
 import { getUser } from "@/lib/cache/user";
 import { paths } from "@/lib/utils/paths";
 
 import { DashboardButton } from "./dashboard-button";
+import { SignInButton } from "./sign-in-button";
 
 export default async function Home() {
   const user = await getUser();
@@ -28,7 +26,7 @@ export default async function Home() {
               }
             />
           ) : (
-            <Button render={<Link href={paths.auth.index} />}>Sign in</Button>
+            <SignInButton href={paths.auth.index} />
           )}
         </div>
       </header>

@@ -21,6 +21,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { sendSignInCode } from "@/lib/actions/auth/send-sign-in-code";
 import { verifySignInCode } from "@/lib/actions/auth/verify-sign-in-code";
 import { codeSchema, emailSchema } from "@/lib/schema/auth";
@@ -116,6 +117,7 @@ export function SignInForm() {
                       name={field.name}
                       type="email"
                       autoComplete="email"
+                      autoFocus
                       placeholder="you@example.com"
                       disabled={step === "otp" || pending}
                       value={field.state.value}
@@ -166,13 +168,10 @@ export function SignInForm() {
 
         <CardFooter className="flex-col items-stretch gap-2">
           <Button type="submit" disabled={pending}>
-            {step === "email"
-              ? pending
-                ? "Sending code…"
-                : "Continue"
-              : pending
-                ? "Verifying…"
-                : "Sign in"}
+            <>
+              {pending && <Spinner />}
+              {step === "email" ? "Continue" : "Sign in"}
+            </>
           </Button>
           <Caption className="text-center">
             If you don&apos;t yet have an account, it will be created
