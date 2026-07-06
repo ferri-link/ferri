@@ -1,0 +1,17 @@
+model Link {
+  id        String   @id @default(cuid())
+  projectId String   @map("project_id")
+  // The link resolves at https://{domain}/{code}.
+  domain    String
+  code      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  customers Customer[]
+
+  // A code is unique within its domain.
+  @@unique([domain, code])
+  @@index([projectId])
+  @@map("links")
+}

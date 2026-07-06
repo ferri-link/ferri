@@ -1,0 +1,28 @@
+// An end user of a project's app, identified by the developer-provided
+// appUserId set through the SDK. Optionally tied to the link they were
+// acquired through.
+model Customer {
+  id String @id @default(cuid())
+
+  // Tenant scope. appUserId is only unique within a project, and linkId below
+  // is optional (organic customers), so it can't carry the scope on its own.
+  projectId String @map("project_id")
+
+  // The developer-provided identity for their app's user. Unique per project.
+  appUserId String @map("app_user_id")
+
+  // The single link this customer was acquired through, if known (one-touch;
+  // which link wins is decided in the app layer). Null for organic customers;
+  // set null if the link is later deleted (customer is kept).
+  linkId String? @map("link_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  link    Link?   @relation(fields: [linkId], references: [id], onDelete: SetNull)
+
+  @@unique([projectId, appUserId])
+  @@index([linkId])
+  @@map("customers")
+}
