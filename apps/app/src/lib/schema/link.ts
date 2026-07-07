@@ -26,3 +26,8 @@ export const createLinkSchema = z.object({
   code: linkCodeSchema,
   folderId: linkFolderSchema,
 });
+
+export const deleteLinkSchema = z.object({
+  projectId: z.string().min(1),
+  linkId: z.string().min(1),
+});
