@@ -1,14 +1,13 @@
 "use client";
 
+import type { FolderModel } from "@ferri/db";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -16,7 +15,9 @@ import {
 import { Kbd } from "@/components/ui/kbd";
 import { useDialogParam } from "@/hooks/use-dialog";
 
-export function CreateLinkDialog() {
+import { CreateLinkForm } from "./form";
+
+export function CreateLinkDialog({ folders }: { folders: FolderModel[] }) {
   const [open, setOpen] = useDialogParam("create-link");
 
   // Press "c" to open the dialog. react-hotkeys-hook ignores keystrokes typed
@@ -44,13 +45,7 @@ export function CreateLinkDialog() {
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter>
-          <DialogClose render={<Button variant="outline" type="button" />}>
-            Cancel
-            <Kbd>Esc</Kbd>
-          </DialogClose>
-          <Button type="button">Create link</Button>
-        </DialogFooter>
+        <CreateLinkForm folders={folders} />
       </DialogContent>
     </Dialog>
   );
