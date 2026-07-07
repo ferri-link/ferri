@@ -20,7 +20,7 @@ export function buildClickInput(headers: Headers, linkId: string): ClickInput {
     signals: {
       userAgent: headers.get("user-agent") ?? undefined,
       languages: parseLanguages(headers.get("accept-language")),
-      // timezone and screen need client-side JS (a future interstitial).
+      // timezone and screen need client-side JS (a future intermediate page).
     },
   };
 }

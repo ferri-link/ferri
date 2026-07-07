@@ -7,7 +7,7 @@ import {
   ipKey,
   MATCH_WINDOW_SECONDS,
 } from "./keys";
-import type { ClickInput, ClickRecord } from "./types";
+import type { ClickInput, ClickRecord, MatchSignals } from "./types";
 
 // Records a click in the KV match store: the click record (kept for the long
 // deterministic clickId window) plus one recency-scored index entry under the
@@ -30,4 +30,21 @@ export async function recordClick(click: ClickInput): Promise<void> {
   }
 
   await pipeline.exec();
+}
+
+// Merges client-collected signals (timezone, screen — which a server redirect
+// can't see) into an already-recorded click, preserving its TTL. No-op if the
+// click has expired or is unknown.
+export async function enrichClickSignals(
+  clickId: string,
+  signals: Partial<MatchSignals>,
+): Promise<void> {
+  const record = await redis.get<ClickRecord>(clickKey(clickId));
+  if (!record) return;
+
+  const merged: ClickRecord = {
+    ...record,
+    signals: { ...record.signals, ...signals },
+  };
+  await redis.set(clickKey(clickId), merged, { keepTtl: true });
 }

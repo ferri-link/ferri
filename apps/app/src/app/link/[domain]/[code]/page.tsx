@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { buildClickInput } from "@/lib/matching/capture";
 import { recordClick } from "@/lib/matching/click";
 
+import { ClickIntermediate } from "./intermediate";
+
 export default async function LinkRedirectPage({
   params,
 }: {
@@ -20,20 +22,18 @@ export default async function LinkRedirectPage({
   });
   if (!link) notFound();
 
+  const requestHeaders = await headers();
+  const click = buildClickInput(requestHeaders, link.id);
+
   // Record the click, best-effort — a KV failure must never block the redirect.
   try {
-    const requestHeaders = await headers();
-    const click = buildClickInput(requestHeaders, link.id);
     await recordClick(click);
   } catch (error) {
     console.error("[click] failed to record", error);
   }
 
-  // Placeholder: the real redirect (to the destination / store, carrying the
-  // clickId) comes later — Link has no destination field yet.
-  return (
-    <main>
-      Redirecting {domain}/{code}…
-    </main>
-  );
+  // The intermediate page collects client-only signals (timezone, screen) and
+  // enriches the recorded click. The real redirect (to the destination / store,
+  // carrying the clickId) comes later — Link has no destination field yet.
+  return <ClickIntermediate clickId={click.clickId} />;
 }
