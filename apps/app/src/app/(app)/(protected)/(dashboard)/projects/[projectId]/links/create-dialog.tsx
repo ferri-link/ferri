@@ -17,7 +17,13 @@ import { useDialogParam } from "@/hooks/use-dialog";
 
 import { CreateLinkForm } from "./form";
 
-export function CreateLinkDialog({ folders }: { folders: FolderModel[] }) {
+export function CreateLinkDialog({
+  folders,
+  projectId,
+}: {
+  folders: FolderModel[];
+  projectId: string;
+}) {
   const [open, setOpen] = useDialogParam("create-link");
 
   // Press "c" to open the dialog. react-hotkeys-hook ignores keystrokes typed
@@ -45,7 +51,11 @@ export function CreateLinkDialog({ folders }: { folders: FolderModel[] }) {
           </DialogDescription>
         </DialogHeader>
 
-        <CreateLinkForm folders={folders} />
+        <CreateLinkForm
+          folders={folders}
+          projectId={projectId}
+          onCreated={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );

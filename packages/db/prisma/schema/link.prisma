@@ -1,6 +1,7 @@
 model Link {
   id        String   @id @default(cuid())
   projectId String   @map("project_id")
+  folderId  String   @map("folder_id")
   // The link resolves at https://{domain}/{code}.
   domain    String
   code      String
@@ -8,10 +9,12 @@ model Link {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  folder    Folder     @relation(fields: [folderId], references: [id], onDelete: Restrict)
   customers Customer[]
 
   // A code is unique within its domain.
   @@unique([domain, code])
   @@index([projectId])
+  @@index([folderId])
   @@map("links")
 }

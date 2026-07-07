@@ -35,11 +35,21 @@ import {
   linkDomainSchema,
   linkFolderSchema,
 } from "@/lib/schema/link";
+import { createLink } from "@/lib/actions/link/create-link";
 import { generateLinkCode } from "@/lib/utils/link";
 import { slugify } from "@/lib/utils/slug";
 
-export function CreateLinkForm({ folders }: { folders: FolderModel[] }) {
-  const [pending] = useState(false);
+export function CreateLinkForm({
+  folders,
+  projectId,
+  onCreated,
+}: {
+  folders: FolderModel[];
+  projectId: string;
+  onCreated: () => void;
+}) {
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Default to the project's first folder (earliest created).
   const defaultFolderId =
@@ -72,6 +82,7 @@ export function CreateLinkForm({ folders }: { folders: FolderModel[] }) {
   });
 
   async function save() {
+    setError(null);
     const fieldErrors = [
       ...(await form.validateField("domain", "submit")),
       ...(await form.validateField("code", "submit")),
@@ -79,7 +90,30 @@ export function CreateLinkForm({ folders }: { folders: FolderModel[] }) {
     ];
     if (fieldErrors.length > 0) return;
 
-    // Persisting the link is wired up separately once the create action lands.
+    setPending(true);
+    try {
+      const result = await createLink({
+        projectId,
+        domain: form.getFieldValue("domain"),
+        code: form.getFieldValue("code"),
+        folderId: form.getFieldValue("folderId"),
+      });
+      if (result?.serverError) {
+        setError(result.serverError);
+        return;
+      }
+      if (result?.validationErrors) {
+        setError(
+          result.validationErrors.code?._errors?.[0] ??
+            result.validationErrors.folderId?._errors?.[0] ??
+            "Please check the form and try again.",
+        );
+        return;
+      }
+      onCreated();
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -239,6 +273,8 @@ export function CreateLinkForm({ folders }: { folders: FolderModel[] }) {
             );
           }}
         </form.Field>
+
+        {error && <FieldError errors={[{ message: error }]} />}
       </FieldGroup>
 
       <DialogFooter>

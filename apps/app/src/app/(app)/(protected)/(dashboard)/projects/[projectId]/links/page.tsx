@@ -19,7 +19,10 @@ export default async function LinksPage({
   const folders = await getProjectFolders(projectId);
 
   return (
-    <PageLayout title="Links" action={<CreateLinkDialog folders={folders} />}>
+    <PageLayout
+      title="Links"
+      action={<CreateLinkDialog folders={folders} projectId={projectId} />}
+    >
       <LinksEmpty />
     </PageLayout>
   );

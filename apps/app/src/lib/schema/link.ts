@@ -21,6 +21,7 @@ export const linkCodeSchema = z
 export const linkFolderSchema = z.string().min(1, "Choose a folder.");
 
 export const createLinkSchema = z.object({
+  projectId: z.string().min(1),
   domain: linkDomainSchema,
   code: linkCodeSchema,
   folderId: linkFolderSchema,
