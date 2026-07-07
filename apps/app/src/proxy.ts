@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { updateSession } from "@/lib/supabase/middleware";
+
 // The /api and /link folders are internal rewrite targets, not public paths.
 function isInternalPath(pathname: string): boolean {
   return (
@@ -16,7 +18,7 @@ function isInternalPath(pathname: string): boolean {
 //   link domains → /link/{host}/*   link resolution (any host that isn't the
 //                                    dashboard or the API)
 //   APP_HOST     → served as-is      dashboard
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Internal folders are reachable only through a proxy rewrite (which does not
   // re-run the proxy). A direct request for them, on any host, is a 404.
   if (isInternalPath(request.nextUrl.pathname)) {
@@ -25,9 +27,9 @@ export function proxy(request: NextRequest) {
 
   const host = request.headers.get("host") ?? "";
 
-  // Dashboard: serve app routes unchanged.
+  // Dashboard: serve app routes unchanged, refreshing the Supabase session.
   if (host === process.env.APP_HOST) {
-    return NextResponse.next();
+    return updateSession(request);
   }
 
   const url = request.nextUrl.clone();
